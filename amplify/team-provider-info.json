@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "Meals": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d21edz0mmxjnx3",
+          "type": "cicd"
+        }
       }
     }
   }

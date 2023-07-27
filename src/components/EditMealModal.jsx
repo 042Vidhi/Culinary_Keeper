@@ -17,17 +17,20 @@ function EditMealModal({ post, setEditModalOpen , isEditModalOpen}) {
 
 
   // Update the meal in the database
-  const handleSave = async () => {
+   async function handleSave (data) {
     try {
-      console.log('editedPost:', editedPost);
-      await DataStore.save(
-        Meal.copyOf(editedPost, (updated) => {
-          updated.name = editedPost.name;
-          updated.description = editedPost.description;
-          updated.mealtype = editedPost.mealtype;
-          updated.day = editedPost.day;
-        })
-      );
+      const original = await DataStore.query(Meal, data.id);
+      if(original)
+      {
+        await DataStore.save(
+          Meal.copyOf(original, (updated) => {
+            updated.name = data.name;
+            updated.description = data.description;
+          })
+        );
+      }
+    
+      setEditModalOpen(false);
     } catch (error) {
       console.error('Error updating meal:', error);
     }
@@ -71,7 +74,7 @@ function EditMealModal({ post, setEditModalOpen , isEditModalOpen}) {
             <div className='mt-4'>
               <button
                 className='bg-blue-500 text-white px-2 py-[3px] rounded-md mr-4'
-                onClick={handleSave}
+                onClick={()=>handleSave(editedPost)}
               >
                 Save
               </button>
